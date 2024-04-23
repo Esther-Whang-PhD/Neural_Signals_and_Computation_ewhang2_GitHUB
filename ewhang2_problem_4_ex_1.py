@@ -29,7 +29,7 @@ class Problem4():
         plt.suptitle("Maximum Value")
         for i in np.arange(5):
           trace_argmax = np.argmax(self.time_traces[:, i])
-          labeled_max_img = self.visual_inspection(self.time_traces, trace_argmax)
+          labeled_max_img = self.visual_inspection(trace_argmax)
           plt.subplot(1,5,i+1)
           plt.title("Trace " + str(self.centers[i,:]) + ", Frame " + str(trace_argmax)) 
           plt.imshow(labeled_max_img)
