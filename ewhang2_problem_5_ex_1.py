@@ -1,5 +1,3 @@
-
-from skimage import io
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
@@ -15,7 +13,7 @@ class Problem5():
         num_of_components = 6
         pca2 = PCA(n_components=num_of_components)
         X_pca = pca2.fit_transform(pixels_by_time_scaled)
-        
+
         plt.figure(figsize=(12,3))
         plt.subplots_adjust(hspace=0.5)
         plt.suptitle("PCA Components", fontsize=18, y=0.95)

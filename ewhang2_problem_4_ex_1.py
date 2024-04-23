@@ -1,9 +1,6 @@
 
-from skimage import io
 import numpy as np
 import matplotlib.pyplot as plt
-import time
-from IPython.display import clear_output
 import cv2
 
 
@@ -12,23 +9,21 @@ class Problem4():
         self.tif_small = tif_small
         self.centers = centers
         self.time_traces = np.zeros((1,1))
+
     def part_A(self):
         print("Problem 4.A")
         # take the centers, make patches, then take the mean of the patches
         self.time_traces = self.extract_time_traces(self.centers)
-
         # plot the time traces
         plt.figure(figsize=(12,3))
         for i in np.arange(5):
             x, y = self.centers[i,:]
             plt.plot(self.time_traces[:,i] +5-i-0.5,label= str(x) + ", " + str(y))
         plt.legend(title = "Center Position")
-        plt.title("Time Traces for ROIs in Normalized Video")            
-
+        plt.title("Problem 4.A: Time Traces for ROIs in Normalized Video")            
 
     def part_B(self):
         print("Problem 4.B")
-
         plt.figure(figsize=(18,4))
         plt.subplots_adjust(hspace=0.5)
         plt.suptitle("Maximum Value")
@@ -38,7 +33,6 @@ class Problem4():
           plt.subplot(1,5,i+1)
           plt.title("Trace " + str(self.centers[i,:]) + ", Frame " + str(trace_argmax)) 
           plt.imshow(labeled_max_img)
-
 
     def extract_time_traces(self, centers):
         time_traces = np.zeros((500,5))
@@ -50,9 +44,8 @@ class Problem4():
           time_traces[:,i] = patch
         return time_traces
     
-    def visual_inspection(self, time_traces, num_sample_frame):
+    def visual_inspection(self, num_sample_frame):
         frame = self.tif_small[int(num_sample_frame),:,:]
-
         viz_img = frame.copy()
         min_value = np.min(viz_img)
         max_value = np.max(viz_img)

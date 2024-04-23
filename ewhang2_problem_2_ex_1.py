@@ -11,6 +11,7 @@ class Problem2():
         self.tif_small = self.load_tif(file_name)
 
     def part_A(self):
+        print("Problem 2.A")
         plt.figure(figsize=(10,4))
         plt.suptitle("Summary Images")
         plt.subplot(1,3,1)
@@ -28,6 +29,7 @@ class Problem2():
         return (tif_small_var, tif_small_median, tif_small_mean)
     
     def part_B(self):
+        print("Problem 2.B")
         plt.figure(figsize=(12,7))
         plt.suptitle("Summary Images: Additional Statistics")
         plt.subplot(2,3,1)

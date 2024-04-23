@@ -14,10 +14,16 @@ class Problem3():
         self.centers = np.zeros((5,2))
 
     def part_A(self):
+        print("Problem 3.A")
+        print("Template Matching: Create a Ring Template")
         blurred_circle_template = self.create_template()
         tif_small_var = np.var(self.tif_small,axis=0)
+        print("Blur Variance Summary Image")
         processed_summary_image = self.process_summary_image(tif_small_var)
+        print("Find the Correlation between the Ring Template and the Blurred Variance Summary Image")
+        print("Create a Mask using the Correlation Image")
         mask = self.threshold_summary_image(processed_summary_image, blurred_circle_template)
+        print("Detect Contours from the Mask using OpenCV")
         self.centers, labeled_image = self.find_centers(mask, processed_summary_image)
         # show circle template, processed summary image, mask, and centers
         if self.centers.shape == (5,2):
@@ -30,7 +36,25 @@ class Problem3():
             print("Despair")
 
     def part_B(self):
-        self.plot_summary_and_ROI()
+        print("Problem 3.B")
+        print("Looking at Summary Images to Evaluate ROI")
+        plt.figure(figsize=(12,7))
+        plt.suptitle("Checking ROI with Summary Images")
+        plt.subplot(2,3,1)
+        plt.title("Mean")
+        plt.imshow(self.label_ROI(self.tif_small.mean(axis=0)))
+        plt.subplot(2,3,2)
+        plt.title("Median")
+        plt.imshow(self.label_ROI(np.median(self.tif_small,axis=0)))
+        plt.subplot(2,3,3)
+        plt.title("Variance")
+        plt.imshow(self.label_ROI(np.var(self.tif_small,axis=0)))
+        plt.subplot(2,3,4)
+        plt.title("Max")
+        plt.imshow(self.label_ROI(self.tif_small.max(axis=0)))
+        plt.subplot(2,3,5)
+        plt.title("Min")
+        plt.imshow(self.label_ROI(self.tif_small.min(axis=0)))
 
     def create_template(self):
         radius = 8
@@ -72,15 +96,12 @@ class Problem3():
         max_value = np.max(viz_img)
         normalized_image = ((viz_img - min_value) / (max_value - min_value)) * 255
 
-        centers = np.zeros((10,2))
-        # weird bug where the contour is spotted twice
+        centers = np.zeros((10,2)) # weird bug where the contour is spotted twice
         i=0
         for c in contours:
-
             M = cv2.moments(c)
             cx = int(M["m10"] / M["m00"])
             cy = int(M["m01"] / M["m00"])
-            #cv2.circle(normalized_image, (cx, cy), 7, (255, 255, 255), 2)
             cv2.rectangle(normalized_image, (cx-9, cy-9), (cx+9, cy+9), (255, 255, 255), 1)
             cv2.putText(normalized_image, str(cx) + ", " + str(cy), (cx, cy-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
             centers[i,:] = (cx, cy)
@@ -100,25 +121,6 @@ class Problem3():
         plt.subplot(1,3,3)
         plt.title("Region of Interest")
         plt.imshow(labeled_image)
-
-    def plot_summary_and_ROI(self):
-        plt.figure(figsize=(12,7))
-        plt.suptitle("Checking ROI with Summary Images")
-        plt.subplot(2,3,1)
-        plt.title("Mean")
-        plt.imshow(self.label_ROI(self.tif_small.mean(axis=0)))
-        plt.subplot(2,3,2)
-        plt.title("Median")
-        plt.imshow(self.label_ROI(np.median(self.tif_small,axis=0)))
-        plt.subplot(2,3,3)
-        plt.title("Variance")
-        plt.imshow(self.label_ROI(np.var(self.tif_small,axis=0)))
-        plt.subplot(2,3,4)
-        plt.title("Max")
-        plt.imshow(self.label_ROI(self.tif_small.max(axis=0)))
-        plt.subplot(2,3,5)
-        plt.title("Min")
-        plt.imshow(self.label_ROI(self.tif_small.min(axis=0)))
 
     def label_ROI(self,viz_img):
       min_value = np.min(viz_img)

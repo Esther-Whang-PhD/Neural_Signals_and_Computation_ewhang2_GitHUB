@@ -12,10 +12,13 @@ class Problem1():
 
     def part_A(self,num_of_frames = 500):
         print("Problem 1.A")
+        print("Animation using Matplotlib")
         self.fake_animation(self.tif_motion, num_of_frames)
 
     def part_B(self,num_frame_a, num_frame_b, num_frame_c):
         print("Problem 1.B")
+        print("Frame 1 and 7 have biggest shift")
+        print("Frame 1 and 5 as comparison")
         frame_a = self.tif_motion[num_frame_a,:,:]
         frame_b = self.tif_motion[num_frame_b,:,:]
         frame_c = self.tif_motion[num_frame_c,:,:]
